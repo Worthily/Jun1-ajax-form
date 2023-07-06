@@ -12,18 +12,18 @@ function setResponse ($httpHeader = '500',$formStatus = '500',$msg = 'ошибк
     return $newResponse;
 }
 
-if (empty($login)) {
+if (empty(str_replace(' ', '', $login))) {
     sleep(3);
     $response = setResponse('409','2','Поле логин не заполнено');
     http_response_code('409');
     echo json_encode($response);
 
-} elseif (empty($password)) {
+} elseif (empty(str_replace(' ', '', $password))) {
     $response = setResponse('409','3','Поле пароль не заполнено');
     sleep(3);
     http_response_code('409');
     echo json_encode($response);
-} elseif (empty($repPassword)) {
+} elseif (empty(str_replace(' ', '', $repPassword))) {
     $response = setResponse('409','4','Поле повтор пароля не заполнено');
     sleep(3);
     http_response_code('409');
