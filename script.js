@@ -16,7 +16,7 @@ $(document).ready(function (){
         $('#form-spinner').show();
         $('#button-text').hide();
         $.ajax({
-            url: 'handlers/handler.php',
+            url: 'handlers/form.php',
             method: 'post',
             dataType: 'json',
             data: $(this).serialize(),
