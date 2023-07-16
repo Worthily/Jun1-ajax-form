@@ -25,7 +25,7 @@ $(document).ready(function (){
             },
             success: function(responseObject){
 
-                if (responseObject.formStatus = '1') {
+                if (responseObject.formStatus == '1') {
                     alert('Ваша информация отправлена');
                     $('#message').html(responseObject.msg);
 
