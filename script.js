@@ -11,44 +11,70 @@ $(document).ready(function (){
         $('#rep-pass-lable').css("color", "black");
     });
 
+
     $("#form").on("submit", function(){
-        $('#form-sub-btn').prop('disabled', true);
-        $('#form-spinner').show();
-        $('#button-text').hide();
         $.ajax({
             url: 'handlers/form.php',
             method: 'post',
             dataType: 'json',
             data: $(this).serialize(),
-            success: function(response){
-                $('#form-spinner').hide();
-                $('#button-text').show();
-                alert('Ваша информация отправлена');
-                $('#message').html(response.msg);
-                $('#form-sub-btn').prop('disabled', false);
+            beforeSend: function(){
+                $('#form-sub-btn').prop('disabled', true);
+                $('#form-spinner').show();
+                $('#button-text').hide();
             },
-            error: function (response) {
+            success: function(responseObject){
 
-                $('#form-spinner').hide();
-                $('#button-text').show();
+                if (responseObject.formStatus = '1') {
+                    alert('Ваша информация отправлена');
+                    $('#message').html(responseObject.msg);
 
-                alert('Ошибка при отправке формы');
-
-                $('#message').html(response.responseJSON.msg);
-
-                if (response.responseJSON.formStatus == '2') {
+                } else if (responseObject.formStatus == '2') {
+                    alert('Ошибка при отправке формы');
+                    $('#message').html(responseObject.msg);
                     $('#login-lable').css("color", "red");
-                } if (response.responseJSON.formStatus == '3') {
+
+                } else if (responseObject.formStatus == '3') {
+                    alert('Ошибка при отправке формы');
+                    $('#message').html(responseObject.msg);
                     $('#pass-lable').css("color", "red");
-                } if (response.responseJSON.formStatus == '4') {
+
+                } else if (responseObject.formStatus == '4') {
+                    alert('Ошибка при отправке формы');
+                    $('#message').html(responseObject.msg);
                     $('#rep-pass-lable').css("color", "red");
-                } if (response.responseJSON.formStatus == '5') {
+
+                } else if (responseObject.formStatus == '5') {
+                    alert('Ошибка при отправке формы');
+                    $('#message').html(responseObject.msg);
                     $('#pass-lable').css("color", "red");
                     $('#rep-pass-lable').css("color", "red");
+
                 }
 
+            },
+            error: function (jqXHR, exception) {
+                if (jqXHR.status === 0) {
+                    alert('Not connect. Verify Network.');
+                } else if (jqXHR.status == 404) {
+                    alert('Requested page not found (404).');
+                } else if (jqXHR.status == 500) {
+                    alert('Internal Server Error (500).');
+                } else if (exception === 'parsererror') {
+                    alert('Requested JSON parse failed.');
+                } else if (exception === 'timeout') {
+                    alert('Time out error.');
+                } else if (exception === 'abort') {
+                    alert('Ajax request aborted.');
+                } else {
+                    alert('Uncaught Error. ' + jqXHR.responseText);
+                }
+            },
+            complete: function(){
+                $('#form-spinner').hide();
+                $('#button-text').show();
                 $('#form-sub-btn').prop('disabled', false);
-            }
+            },
         });
         return false;
     });
